@@ -24,7 +24,7 @@
         "layer": [
           {
             "data": {
-              "url": "/TLV_area.json",
+              "url": "../data/TLV_area.json",
               "format": {
                 "type": "topojson",
                 "feature": "clipped_dan"
@@ -38,7 +38,7 @@
           },
           {
             "data": {
-              "url": "/filtered_tlv_routes_2020-06-24.csv",
+              "url": "../data/filtered_tlv_routes_2020-06-24.csv",
               "type": "csv",
               "parse": {"num_trips": "number"}
             },
@@ -82,7 +82,7 @@
           }
         ]
       };
-
+      spec["$schema"]
       vegaEmbed('#map', spec);
     </script>
   </body>
