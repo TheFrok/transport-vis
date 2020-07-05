@@ -1,0 +1,58 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "width": 700,
+  "height": 900,
+  "projection": {"type": "mercator", "scale": 200000, "center": [34.8, 32.067]},
+  "layer": [
+    {
+      "data": {
+        "url": "../data/TLV_area_square.json",
+        "format": {"type": "topojson", "feature": "clipped_dan"}
+      },
+      "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "grey"}
+    },
+    {
+      "data": {
+        "url": "../data/filtered_tlv_routes_2020-06-24.csv"
+      },
+      "transform": [
+        {"calculate": "round(datum.start_stop_lon*100)/100", "as": "floored_start_lon"},
+        {"calculate": "round(datum.start_stop_lat*100)/100", "as": "floored_start_lat"},
+        {
+          "aggregate": [
+            {"op": "sum", "field": "num_trips", "as": "trip_per_day"},
+            {
+              "op": "argmax",
+              "field": "start_stop_id",
+              "as": "min_stop"
+            }
+          ],
+          "groupby": ["floored_start_lon", "floored_start_lat"]
+        },
+        {"filter": "datum.trip_per_day > 50"}
+      ],
+      "mark": {"type": "circle", "opacity": 0.9},
+      "encoding": {
+        "longitude": {"field": "min_stop.start_stop_lon", "type": "quantitative"},
+        "latitude": {"field": "min_stop.start_stop_lat", "type": "quantitative"},
+        "stroke": {"value": "blue"},
+        "fill": {"value": "steelblue"},
+        "size": {"field": "trip_per_day", "title": "trips per day", "type": "quantitative"},
+        "tooltip": [
+          {"field": "trip_per_day", 
+           "title": "trips per day",
+           "type": "quantitative"},
+          {"field": "min_stop.start_stop_city", 
+           "title": "city", 
+           "type": "nominal"},
+          {"field": "min_stop.start_stop_name", 
+           "title": "stop name", 
+           "type": "nominal"},
+          {"field": "min_stop.start_stop_id", 
+           "title": "stop id",
+           "type": "nominal"}
+        ]
+      }
+    }
+  ]
+}

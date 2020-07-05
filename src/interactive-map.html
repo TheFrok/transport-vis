@@ -10,81 +10,8 @@
   </head>
   <body>  
     <div id="map"></div>
-
     <script>
-      var spec = {
-        "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-        "width": 500,
-        "height": 700,
-        "projection": {
-              "type": "mercator",
-              "scale": 200000,
-              "center": [34.8,32.08]
-            },
-        "layer": [
-          {
-            "data": {
-              "url": "../data/TLV_area_square.json",
-              "format": {
-                "type": "topojson",
-                "feature": "clipped_dan"
-              }
-            },
-            "mark": {
-              "type": "geoshape",
-              "fill": "lightgray",
-              "stroke": "grey"
-            }
-          },
-          {
-            "data": {
-              "url": "../data/filtered_tlv_routes_2020-06-24.csv",
-              "type": "csv",
-              "parse": {"num_trips": "number"}
-            },
-            "transform": [
-              {"calculate": "round(datum.start_stop_lon*1000)/1000", "as": "floored_start_lon"},
-              {"calculate": "round(datum.start_stop_lat*1000)/1000", "as": "floored_start_lat"},
-              {
-                "aggregate": [{
-                 "op": "sum",
-                 "field": "num_trips",
-                 "as": "trip_per_day"
-                },{
-                 "op": "max",
-                 "field": "start_stop_name",
-                 "as": "stop_name"
-                },{
-                 "op": "max",
-                 "field": "start_stop_id",
-                 "as": "stop_id"
-                }],
-                "groupby": ["floored_start_lon", "floored_start_lat"]
-              },
-              { "filter": "datum.trip_per_day > 200" }
-            ],
-            "mark": {
-              "type": "circle",
-              "opacity": 0.9
-            },
-            "encoding": {
-              "longitude": { "field": "floored_start_lon", "type": "quantitative" },
-              "latitude": { "field": "floored_start_lat", "type": "quantitative" },
-              "color": {"value": "orange"}, 
-              "size": { "field": "trip_per_day", "type": "quantitative" },
-              "tooltip": [
-                  {"field": "stop_name", "type": "nominal"},
-                  {"field": "stop_id", "type": "nominal"},
-                  {"field": "trip_per_day", "type": "quantitative"},
-                  {"field": "floored_start_lon", "type": "quantitative"},
-                  {"field": "floored_start_lat", "type": "quantitative"}
-                ]
-            }
-          }
-        ]
-      };
-      spec["$schema"]
-      vegaEmbed('#map', spec);
+      vegaEmbed('#map', "map.json");
     </script>
   </body>
 </html>

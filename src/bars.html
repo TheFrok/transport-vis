@@ -23,8 +23,8 @@
               "name": "stations"
             },
             "transform": [
-              {"calculate": "floor(datum.start_stop_lon*100)/100", "as": "floored_start_lon"},
-              {"calculate": "floor(datum.start_stop_lat*100)/100", "as": "floored_start_lat"},
+              {"calculate": "floor(datum.start_stop_lon*1000)/1000", "as": "floored_start_lon"},
+              {"calculate": "floor(datum.start_stop_lat*1000)/1000", "as": "floored_start_lat"},
               {
                 "aggregate": [{
                  "op": "sum",
@@ -37,7 +37,7 @@
                 }],
                 "groupby": ["floored_start_lon", "floored_start_lat"]
               },{
-                "filter": "datum.trip_per_day > 400"
+                "filter": "datum.trip_per_day > 200"
               }
             ],
             "mark": "bar",
