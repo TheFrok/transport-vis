@@ -24,7 +24,7 @@
         "layer": [
           {
             "data": {
-              "url": "../data/TLV_area.json",
+              "url": "../data/TLV_area_square.json",
               "format": {
                 "type": "topojson",
                 "feature": "clipped_dan"
@@ -70,13 +70,14 @@
             "encoding": {
               "longitude": { "field": "floored_start_lon", "type": "quantitative" },
               "latitude": { "field": "floored_start_lat", "type": "quantitative" },
-              "color": {"value": "steelblue"}, 
-              <!-- "opacity": "20", -->
+              "color": {"value": "orange"}, 
               "size": { "field": "trip_per_day", "type": "quantitative" },
               "tooltip": [
                   {"field": "stop_name", "type": "nominal"},
                   {"field": "stop_id", "type": "nominal"},
-                  {"field": "trip_per_day", "type": "quantitative"}
+                  {"field": "trip_per_day", "type": "quantitative"},
+                  {"field": "floored_start_lon", "type": "quantitative"},
+                  {"field": "floored_start_lat", "type": "quantitative"}
                 ]
             }
           }
